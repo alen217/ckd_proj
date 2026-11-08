@@ -1,0 +1,945 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RenalCare | CKD Prediction</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+ 
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">Renal<span>Care</span></div>
+
+        <p class="nav-title">MAIN MENU</p>
+
+        <a href="#overview" class="nav-item active">▦ Dashboard</a>
+        <a href="#patient-form" class="nav-item">♙ Patient Assessment</a>
+        <a href="#result-panel" class="nav-item">◈ Prediction Results</a>
+
+        <p class="nav-title">INFORMATION</p>
+
+        <a href="#disclaimer" class="nav-item">ⓘ About System</a>
+
+        <div class="sidebar-footer">
+            Kidney Disease Prediction System<br>
+            Machine Learning Powered
+        </div>
+
+    </aside>
+
+
+    <!-- Main dashboard -->
+
+    <main class="main">
+
+        <header class="topbar" id="overview">
+
+            <div>
+                <h1>Dashboard Overview</h1>
+                <p>Chronic Kidney Disease Prediction System</p>
+            </div>
+
+            <div class="status">● ML Model Connected</div>
+
+        </header>
+
+
+        <!-- Summary cards -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <div class="stat-icon">🧬</div>
+                <p>Prediction Engine</p>
+                <h2>{{ model_name }}</h2>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <p>Input Parameters</p>
+                <h2>24 Features</h2>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <p>Analysis Type</p>
+                <h2>Real-time</h2>
+            </div>
+
+        </section>
+
+
+        <!-- Patient form -->
+
+        <section class="panel" id="patient-form">
+
+            <div class="panel-header">
+                <h2>Patient Assessment</h2>
+                <p>Enter the patient's clinical and laboratory information.</p>
+            </div>
+
+            <form id="predictionForm">
+
+                <h3 class="section-heading">01. Basic Information</h3>
+
+                <div class="grid">
+
+                    <div class="field">
+                        <label>Age (years)</label>
+                        <input type="number" name="age" min="0" max="120" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Blood Pressure (bp)</label>
+                        <input type="number" name="bp" min="0" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Specific Gravity (sg)</label>
+                        <input type="number" name="sg" min="1" max="1.1" step="any" required>
+                    </div>
+
+                </div>
+                
+                <a href="#batch-screening" class="nav-item">▤ Cohort Screening</a>
+
+                <h3 class="section-heading">02. Urine Examination</h3>
+
+                <div class="grid">
+
+                    <div class="field">
+                        <label>Albumin (al)</label>
+                        <input type="number" name="al" min="0" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Sugar (su)</label>
+                        <input type="number" name="su" min="0" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Red Blood Cells (rbc)</label>
+                        <select name="rbc" required>
+                            <option value="normal">Normal</option>
+                            <option value="abnormal">Abnormal</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Pus Cells (pc)</label>
+                        <select name="pc" required>
+                            <option value="normal">Normal</option>
+                            <option value="abnormal">Abnormal</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Pus Cell Clumps (pcc)</label>
+                        <select name="pcc" required>
+                            <option value="notpresent">Not Present</option>
+                            <option value="present">Present</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Bacteria (ba)</label>
+                        <select name="ba" required>
+                            <option value="notpresent">Not Present</option>
+                            <option value="present">Present</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <h3 class="section-heading">03. Blood Examination</h3>
+
+                <div class="grid">
+
+                    <div class="field">
+                        <label>Blood Glucose Random (bgr)</label>
+                        <input type="number" name="bgr" min="0" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Blood Urea (bu)</label>
+                        <input type="number" name="bu" min="0" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Serum Creatinine (sc)</label>
+                        <input type="number" name="sc" min="0" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Sodium (sod)</label>
+                        <input type="number" name="sod" min="0" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Potassium (pot)</label>
+                        <input type="number" name="pot" min="0" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Hemoglobin (hemo)</label>
+                        <input type="number" name="hemo" min="0" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Packed Cell Volume (pcv)</label>
+                        <input type="number" name="pcv" min="0" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label>White Blood Cell Count (wc)</label>
+                        <input type="number" name="wc" min="0" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Red Blood Cell Count (rc)</label>
+                        <input type="number" name="rc" min="0" step="any" required>
+                    </div>
+
+                </div>
+
+
+                <h3 class="section-heading">04. Medical History</h3>
+
+                <div class="grid">
+
+                    <div class="field">
+                        <label>Hypertension (htn)</label>
+                        <select name="htn" required>
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Diabetes Mellitus (dm)</label>
+                        <select name="dm" required>
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Coronary Artery Disease (cad)</label>
+                        <select name="cad" required>
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Appetite (appet)</label>
+                        <select name="appet" required>
+                            <option value="good">Good</option>
+                            <option value="poor">Poor</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Pedal Edema (pe)</label>
+                        <select name="pe" required>
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Anemia (ane)</label>
+                        <select name="ane" required>
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="submit-btn" id="predictBtn">
+                    Analyze Patient Data →
+                </button>
+
+            </form>
+
+        </section>
+        
+
+        
+<!-- Cohort Screening Section -->
+
+        <section class="panel" id="batch-screening">
+
+            <div class="panel-header">
+                <h2>Cohort Screening</h2>
+                <p>Upload a CSV file to analyze multiple patient records simultaneously.</p>
+            </div>
+
+            <form id="batchForm">
+
+                <div style="
+                    border: 2px dashed #b8d5c6;
+                    background: #f5faf6;
+                    border-radius: 14px;
+                    padding: 35px 20px;
+                    text-align: center;
+                ">
+
+                    <div style="font-size: 36px; margin-bottom: 12px;">
+                        📁
+                    </div>
+
+                    <h3 style="color:#214a3c; margin-bottom:10px;">
+                        Upload Patient Dataset
+                    </h3>
+
+                    <p style="color:#83928b; font-size:13px; margin-bottom:20px;">
+                        Select a CSV file containing the 24 required clinical features.
+                    </p>
+
+                    <input
+                        type="file"
+                        id="csvFile"
+                        accept=".csv,text/csv"
+                        required
+                        style="
+                            max-width:350px;
+                            margin:auto;
+                            background:white;
+                        "
+                    >
+
+                </div>
+
+                <button type="submit" class="submit-btn" id="batchBtn">
+                    Run Cohort Screening →
+                </button>
+
+            </form>
+
+            <div id="batchError"
+                style="color:#c0392b; margin-top:15px; font-size:13px;">
+            </div>
+
+        </section>
+
+
+        <!-- Batch Results -->
+
+        <section class="panel" id="batchResults" style="display:none;">
+
+            <div class="panel-header">
+                <h2>Cohort Screening Results</h2>
+                <p>Summary of predictions generated from the uploaded dataset.</p>
+            </div>
+
+            <div class="stats">
+
+                <div class="stat-card">
+                    <p>Total Patients</p>
+                    <h2 id="totalPatients">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Predicted CKD</p>
+                    <h2 id="ckdCount" style="color:#c77b36;">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Predicted Not CKD</p>
+                    <h2 id="nonCkdCount" style="color:#278b75;">0</h2>
+                </div>
+
+            </div>
+
+            <div style="overflow-x:auto;">
+
+                <table style="
+                    width:100%;
+                    border-collapse:collapse;
+                    font-size:13px;
+                    text-align:left;
+                ">
+
+                    <thead>
+                        <tr style="background:#f1f7f3;">
+                            <th style="padding:14px;">Patient</th>
+                            <th style="padding:14px;">Prediction</th>
+                            <th style="padding:14px;">CKD Probability</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="batchTable"></tbody>
+
+                </table>
+
+            </div>
+
+            <div style="
+                display:flex;
+                gap:12px;
+                flex-wrap:wrap;
+                margin-top:25px;
+            ">
+
+                <button type="button" class="submit-btn"
+                        style="width:auto; margin:0; padding:13px 20px;"
+                        onclick="downloadReport('html')">
+                    Download HTML Report
+                </button>
+
+                <button type="button" class="submit-btn"
+                        style="width:auto; margin:0; padding:13px 20px;
+                            background:#526c60;"
+                        onclick="downloadReport('txt')">
+                    Download TXT Report
+                </button>
+
+            </div>
+
+            <p class="disclaimer">
+                Predictions are model-generated screening estimates, not confirmed
+                diagnoses. Clinical review is required.
+            </p>
+
+        </section>
+
+
+
+        <!-- Prediction results -->
+
+        <section class="panel result-panel" id="result-panel">
+
+            <div class="panel-header">
+                <h2>Prediction Results</h2>
+                <p>Output generated by the trained machine learning pipeline.</p>
+            </div>
+
+            <div class="result-content">
+
+                <div>
+                    <p class="prediction-label">Predicted Classification</p>
+                    <div class="prediction-value" id="predictionValue">
+                        --
+                    </div>
+                </div>
+
+                <div class="probability">
+
+                    <div class="probability-header">
+                        <span>CKD Probability</span>
+                        <strong id="probabilityValue">0%</strong>
+                    </div>
+
+                    <div class="progress">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="feature-insights" id="featureInsights" hidden>
+                <h3>Top feature sensitivities</h3>
+                <p id="featureInsightNote"></p>
+                <ul id="featureInsightList"></ul>
+            </div>
+
+            <p class="disclaimer">
+                This result is generated by a machine learning model and is
+                intended for research and decision-support purposes only.
+                It is not a confirmed medical diagnosis. Clinical assessment
+                by a qualified healthcare professional is necessary.
+            </p>
+
+        </section>
+
+
+        <section class="panel" id="disclaimer">
+            <div class="panel-header">
+                <h2>About RenalCare</h2>
+                <p>
+                    A machine learning-based system designed to analyze
+                    clinical parameters and estimate the likelihood of
+                    chronic kidney disease.
+                </p>
+            </div>
+        </section>
+
+
+        <footer class="footer">
+            RenalCare | Kidney Disease Prediction System
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script>
+
+document.getElementById("predictionForm").addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    const form = this;
+    const button = document.getElementById("predictBtn");
+    const resultPanel = document.getElementById("result-panel");
+
+    const formData = new FormData(form);
+    const data = {};
+
+    formData.forEach((value, key) => {
+        data[key] = value;
+    });
+
+    button.disabled = true;
+    button.innerText = "Analyzing Patient Data...";
+
+    resultPanel.style.display = "block";
+    document.getElementById("predictionValue").innerText = "Processing...";
+    document.getElementById("probabilityValue").innerText = "--";
+    document.getElementById("progressBar").style.width = "0%";
+    document.getElementById("featureInsights").hidden = true;
+    document.getElementById("featureInsightList").replaceChildren();
+
+    try {
+
+        const response = await fetch("/predict", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || "Prediction failed");
+        }
+
+        const prediction = result.prediction;
+        const probability = Number(result.ckd_probability);
+
+        if (!Number.isFinite(probability) || probability < 0 || probability > 100) {
+            throw new Error("Invalid probability returned by server");
+        }
+
+        const predictionElement = document.getElementById("predictionValue");
+
+        predictionElement.innerText = prediction;
+
+        predictionElement.style.color =
+            prediction === "CKD" ? "#d97735" : "#16876c";
+
+        document.getElementById("probabilityValue").innerText =
+            probability.toFixed(2) + "%";
+
+        document.getElementById("progressBar").style.width =
+            probability + "%";
+
+        const insightList = document.getElementById("featureInsightList");
+        result.top_feature_sensitivities.forEach(item => {
+            const entry = document.createElement("li");
+            const change = Number(
+                item.probability_change_percentage_points
+            );
+            entry.textContent =
+                `${item.feature} (${item.input_value}): ` +
+                `${change > 0 ? "+" : ""}${change.toFixed(2)} percentage points`;
+            insightList.appendChild(entry);
+        });
+        document.getElementById("featureInsightNote").innerText =
+            result.explanation_note;
+        document.getElementById("featureInsights").hidden = false;
+
+        resultPanel.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    } catch (error) {
+
+        document.getElementById("predictionValue").innerText = "Error";
+        document.getElementById("probabilityValue").innerText = error.message;
+
+    } finally {
+
+        button.disabled = false;
+        button.innerText = "Analyze Patient Data →";
+
+    }
+
+});
+
+
+let batchReportData = null;
+
+
+// Escape content before inserting it into an HTML report
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+
+// Submit CSV for batch prediction
+document.getElementById("batchForm").addEventListener(
+    "submit", async function(e) {
+
+        e.preventDefault();
+
+        const fileInput = document.getElementById("csvFile");
+        const errorDiv = document.getElementById("batchError");
+        const button = document.getElementById("batchBtn");
+
+        errorDiv.innerText = "";
+
+        batchReportData = null;
+
+        document.getElementById("batchResults").style.display = "none";
+        document.getElementById("batchTable").innerHTML = "";
+
+        if (!fileInput.files.length) {
+            errorDiv.innerText = "Please select a CSV file.";
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", fileInput.files[0]);
+
+        button.disabled = true;
+        button.innerText = "Processing Patient Records...";
+
+        try {
+
+            const response = await fetch("/batch-predict", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Batch prediction failed");
+            }
+
+            batchReportData = {
+                ...data,
+                generatedAt: new Date().toLocaleString(),
+                sourceFile: fileInput.files[0].name
+            };
+
+            // Update summary cards
+            document.getElementById("totalPatients").innerText =
+                data.total_patients;
+
+            document.getElementById("ckdCount").innerText =
+                data.ckd_count;
+
+            document.getElementById("nonCkdCount").innerText =
+                data.non_ckd_count;
+
+
+            // Display patient results
+            const table = document.getElementById("batchTable");
+
+            table.innerHTML = "";
+
+            data.results.forEach(patient => {
+
+                const row = document.createElement("tr");
+
+                const patientCell = document.createElement("td");
+                patientCell.innerText =
+                    "Patient " + patient.patient_number;
+
+                const predictionCell = document.createElement("td");
+                predictionCell.innerText = patient.prediction;
+                predictionCell.style.fontWeight = "bold";
+                predictionCell.style.color =
+                    patient.prediction === "CKD"
+                    ? "#c77b36"
+                    : "#278b75";
+
+                const probabilityCell = document.createElement("td");
+                probabilityCell.innerText =
+                    patient.ckd_probability.toFixed(2) + "%";
+
+                [patientCell, predictionCell, probabilityCell].forEach(cell => {
+                    cell.style.padding = "14px";
+                    cell.style.borderBottom = "1px solid #e8eee9";
+                    row.appendChild(cell);
+                });
+
+                table.appendChild(row);
+
+            });
+
+
+            // Show results
+            document.getElementById("batchResults").style.display = "block";
+
+            document.getElementById("batchResults").scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        } catch (error) {
+
+            errorDiv.innerText = error.message;
+
+        } finally {
+
+            button.disabled = false;
+            button.innerText = "Run Cohort Screening →";
+
+        }
+
+    }
+);
+
+
+// Generate and download HTML or TXT report
+function downloadReport(type) {
+
+    if (!batchReportData) {
+        alert("Please run batch screening first.");
+        return;
+    }
+
+    const data = batchReportData;
+
+    let content;
+    let mimeType;
+    let extension;
+
+    if (type === "html") {
+
+        const rows = data.results.map(patient => `
+            <tr>
+                <td>Patient ${patient.patient_number}</td>
+                <td>${escapeHTML(patient.prediction)}</td>
+                <td>${patient.ckd_probability.toFixed(2)}%</td>
+            </tr>
+        `).join("");
+
+        content = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>RenalCare Cohort Report</title>
+
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background: #f4f8f5;
+                    padding: 35px;
+                    color: #253b35;
+                }
+
+                .container {
+                    max-width: 950px;
+                    margin: auto;
+                    background: white;
+                    padding: 35px;
+                    border-radius: 14px;
+                }
+
+                h1 { color: #176b59; }
+
+                .summary {
+                    display: flex;
+                    gap: 15px;
+                    flex-wrap: wrap;
+                    margin: 25px 0;
+                }
+
+                .card {
+                    background: #edf6f0;
+                    padding: 20px;
+                    border-radius: 10px;
+                    flex: 1;
+                    min-width: 130px;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 25px;
+                }
+
+                th, td {
+                    padding: 13px;
+                    text-align: left;
+                    border-bottom: 1px solid #e4ece6;
+                }
+
+                th {
+                    background: #e8f4ed;
+                }
+
+                .disclaimer {
+                    margin-top: 30px;
+                    font-size: 12px;
+                    color: #718078;
+                    line-height: 1.7;
+                }
+            </style>
+        </head>
+
+        <body>
+            <div class="container">
+
+                <h1>RenalCare</h1>
+                <h2>Cohort Screening Report</h2>
+
+                <p>Generated: ${escapeHTML(data.generatedAt)}</p>
+                <p>Source file: ${escapeHTML(data.sourceFile)}</p>
+
+                <div class="summary">
+
+                    <div class="card">
+                        <h3>${data.total_patients}</h3>
+                        <p>Total Patients</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>${data.ckd_count}</h3>
+                        <p>Predicted CKD</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>${data.non_ckd_count}</h3>
+                        <p>Predicted Not CKD</p>
+                    </div>
+
+                </div>
+
+                <h3>Individual Patient Predictions</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Prediction</th>
+                            <th>CKD Probability</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        ${rows}
+                    </tbody>
+                </table>
+
+                <p class="disclaimer">
+                    This report contains machine-learning-generated
+                    screening estimates. Results are not confirmed
+                    medical diagnoses and require review by a
+                    qualified healthcare professional.
+                </p>
+
+            </div>
+        </body>
+        </html>
+        `;
+
+        mimeType = "text/html";
+        extension = "html";
+
+    } else if (type === "txt") {
+
+        const rows = data.results.map(patient =>
+            `Patient ${patient.patient_number}\n` +
+            `Prediction: ${patient.prediction}\n` +
+            `CKD Probability: ${patient.ckd_probability.toFixed(2)}%\n`
+        ).join("\n");
+
+        content = `
+RENALCARE
+COHORT SCREENING REPORT
+====================================
+
+Generated: ${data.generatedAt}
+Source file: ${data.sourceFile}
+
+COHORT SUMMARY
+------------------------------------
+Total Patients: ${data.total_patients}
+Predicted CKD: ${data.ckd_count}
+Predicted Not CKD: ${data.non_ckd_count}
+
+INDIVIDUAL PREDICTIONS
+------------------------------------
+
+${rows}
+
+DISCLAIMER
+------------------------------------
+These are machine-learning-generated
+screening estimates, not confirmed
+medical diagnoses. Clinical review
+is required.
+
+====================================
+RenalCare Kidney Disease Prediction
+`;
+
+        mimeType = "text/plain";
+        extension = "txt";
+
+    } else {
+        return;
+    }
+
+
+    // Create downloadable file
+    const blob = new Blob([content], {
+        type: mimeType + ";charset=utf-8"
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "renalcare_cohort_report." + extension;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    
+    setTimeout(() => {
+    URL.revokeObjectURL(url);
+    }, 1000);
+
+}
+
+
+
+</script>
+
+</body>
+</html>
